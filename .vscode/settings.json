@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "numtypes.h": "c",
+        "dtypes.h": "c",
+        "keystokens.h": "c",
+        "objecttypes.h": "c"
+    }
+}
