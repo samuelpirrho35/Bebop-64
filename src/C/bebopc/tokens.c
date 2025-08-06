@@ -38,7 +38,7 @@ const string LexicalErrors_messages[] = {
     "error when relocating string"
 };
 
-char verifyInterruption(uint32_t chr, char charactere_size){
+char verify_interruption(uint32_t chr, char charactere_size){
     char chars_8bits[] = "+-*%/=^|&~`!?@#$(){}[],.:;<>\\'\"\n";
     char chars_16bits[] = "¹²³£¢¬°´®ŧøþªÆÐŊĦˀĸŁºˇ«»©µ· ";
     char chars_24bits[] = " ← ↓ → „ “ ” •   ";
@@ -132,7 +132,7 @@ unsigned int stringCode(char *str, int size){
     return code + size * (*(str) ^ *(str + size - 1)) + (*(str) & *(str + size - 1)) * *(str);
 }
 
-ident_or_object_or_method* is_a_keyword_quest(string word, uint64_t size){
+ident_or_object_or_method* is_a_keyword(string word, uint64_t size){
     if (size < if_.l || size > remove_f_id_.l) return NULL;
 
     unsigned int code = stringCode(word, size);
@@ -198,7 +198,7 @@ void endian_buffer_from_uint32_tptr(uint32_t *u32_ptr){
 }
 
 
-Tokens lexicalAnalyzer(string file, uint64_t srcsize){
+Tokens lexical_analyzer(string file, uint64_t srcsize){
     Tokens tokens = { TOK_INIT, 0, (TOK*) malloc(TOK_INIT) };
 
     uint32_t charactere = 0;
@@ -226,7 +226,7 @@ Tokens lexicalAnalyzer(string file, uint64_t srcsize){
         }
 
         if(charactere_size <= _utf3byte){
-            char res = verifyInterruption(charactere, charactere_size);
+            char res = verify_interruption(charactere, charactere_size);
 
             if(res && charactere_size == _utf3byte){
                 error_message = LexicalErrors_messages[_invchar];
@@ -270,7 +270,7 @@ Tokens lexicalAnalyzer(string file, uint64_t srcsize){
 
             printf("word: %s\n", word);
 
-            tokens.toks[tokens.len].value.key_type.keyptr = is_a_keyword_quest(word, character_count);
+            tokens.toks[tokens.len].value.key_type.keyptr = is_a_keyword(word, character_count);
 
             if(tokens.toks[tokens.len].value.key_type.keyptr == NULL)
                 printf("not is a keyword\n");
@@ -325,7 +325,7 @@ Tokens lexicalAnalyzer(string file, uint64_t srcsize){
 
 int main(){
     string file = ".:;Hello";
-    Tokens tokens = lexicalAnalyzer(file, strlen(file));
+    Tokens tokens = lexical_analyzer(file, strlen(file));
 
     return 0;
 }
